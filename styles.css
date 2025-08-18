@@ -11,14 +11,10 @@
 --shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
-    {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    }
-
-html, body {
-height: 100%;
+   * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -492,4 +488,25 @@ h1 {
   font-size: 1rem;
   color: var(--muted);
   margin-bottom: 1.5rem;
+}
+/* Añade esto al final del archivo existente */
+h1 {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Corrige el selector universal mal formado (al inicio del archivo) */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
