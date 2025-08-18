@@ -91,7 +91,7 @@ function setActiveNav() {
 const path = location.pathname.split('/').pop() || 'index.html';
 $all('nav a').forEach(a => {
 a.classList.toggle('active', a.getAttribute('href') === path);
-});
+})
 }
 
 // ======================
