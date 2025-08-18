@@ -66,3 +66,4 @@ renderCasos(data);
 }
 
 document.addEventListener('DOMContentLoaded', initCasos);
+});
