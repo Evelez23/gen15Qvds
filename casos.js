@@ -43,8 +43,6 @@ if (window.anime) {
   });
 }
 
-}
-
 document.getElementById('search')?.addEventListener('input', (e) => {
 const term = e.target.value.toLowerCase().trim();
 if (!term) {
