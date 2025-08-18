@@ -54,7 +54,7 @@ return Array.from(uniqueRecordsMap.values()).sort((a, b) =>
 console.error('Error cargando dataset:', error);
 return [];
 }
-}
+});
 
 // ======================
 // FUNCIONES DE UTILIDAD
@@ -126,3 +126,25 @@ new Chart(document.getElementById('chartHerencia').getContext('2d'), {
       }
     }
 }); 
+new Chart(document.getElementById('chartHerencia').getContext('2d'), {
+    type: 'pie',
+    data: {
+        labels: ['Heredado', 'De novo', 'Desconocido'],
+        datasets: [{
+            data: [30, 65, 5],
+            backgroundColor: [
+                'rgba(110, 168, 254, 0.6)',
+                'rgba(0, 209, 209, 0.6)',
+                'rgba(168, 179, 207, 0.6)'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
