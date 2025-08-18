@@ -479,3 +479,17 @@ margin-top: 10px;
 padding: 32px 24px;
 }
 }
+/* Añade esto en styles.css */
+h1 {
+  font-size: 2rem; /* Tamaño responsive */
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
