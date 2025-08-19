@@ -1,3 +1,4 @@
+// index.js
 async function initIndex() {
   const data = await loadDataset();
 
@@ -7,33 +8,34 @@ async function initIndex() {
   const noValidados = data.filter(c => c.__origen === "no_validado").length;
 
   // Países / localización distintos (excluyendo "No especificada")
-  const paises = [...new Set(data
-    .map(c => (c.localizacion || "").toLowerCase())
-    .filter(p => p && p !== "no especificada"))];
+  const paisesSet = new Set(
+    data
+      .map(c => (c.localizacion || "").trim())
+      .filter(p => p && p.toLowerCase() !== "no especificada")
+  );
 
-  // Render de KPIs
+  // Render de KPIs (sobrescribe para evitar duplicados)
   const kpiContainer = document.getElementById("kpis");
-  kpiContainer.innerHTML = `
-    <div class="panel kpi">
-      <h2>${total}</h2>
-      <p>Total de casos</p>
-    </div>
-   <div class="panel kpi">
-  <h2>${paises.length}</h2>
-  <p>Países con casos</p>
-</div>
-      <h2>${validados}</h2>
-      <p>Casos validados</p>
-    </div>
-    <div class="panel kpi">
-      <h2>${noValidados}</h2>
-      <p>Casos no validados</p>
-    </div>
-    <div class="panel kpi">
-      <h2>${paises.length}</h2>
-      <p>Países representados</p>
-    </div>
-  `;
+  if (kpiContainer) {
+    kpiContainer.innerHTML = `
+      <div class="panel kpi">
+        <h2>${total}</h2>
+        <p>Total de casos</p>
+      </div>
+      <div class="panel kpi">
+        <h2>${validados}</h2>
+        <p>Casos validados</p>
+      </div>
+      <div class="panel kpi">
+        <h2>${noValidados}</h2>
+        <p>Casos no validados</p>
+      </div>
+      <div class="panel kpi">
+        <h2>${paisesSet.size}</h2>
+        <p>Países con casos</p>
+      </div>
+    `;
+  }
 
   // ---- Distribución por edades ----
   const buckets = {
@@ -56,44 +58,47 @@ async function initIndex() {
     }
   });
 
-  const ctxAges = document.getElementById("chartAges").getContext("2d");
-  new Chart(ctxAges, {
-    type: "bar",
-    data: {
-      labels: Object.keys(buckets),
-      datasets: [{
-        label: "Número de casos",
-        data: Object.values(buckets),
-        backgroundColor: "#4e79a7"
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+  // Chart: edades
+  const agesEl = document.getElementById("chartAges");
+  if (agesEl) {
+    const ctxAges = agesEl.getContext("2d");
+    new Chart(ctxAges, {
+      type: "bar",
+      data: {
+        labels: Object.keys(buckets),
+        datasets: [{
+          label: "Número de casos",
+          data: Object.values(buckets),
+          backgroundColor: "#4e79a7"
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
       }
-    }
-  });
+    });
+  }
 
-  // ---- Estado de los casos ----
-  const ctxOrigen = document.getElementById("chartOrigen").getContext("2d");
-  new Chart(ctxOrigen, {
-    type: "doughnut",
-    data: {
-      labels: ["Validados", "No validados"],
-      datasets: [{
-        data: [validados, noValidados],
-        backgroundColor: ["#59a14f", "#e15759"]
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: "bottom" }
+  // Chart: estado (validados vs no validados)
+  const origenEl = document.getElementById("chartOrigen");
+  if (origenEl) {
+    const ctxOrigen = origenEl.getContext("2d");
+    new Chart(ctxOrigen, {
+      type: "doughnut",
+      data: {
+        labels: ["Validados", "No validados"],
+        datasets: [{
+          data: [validados, noValidados],
+          backgroundColor: ["#59a14f", "#e15759"]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: "bottom" } }
       }
-    }
-  });
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", initIndex);
