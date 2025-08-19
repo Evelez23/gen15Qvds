@@ -28,48 +28,65 @@ function normalizeRecord(record) {
 // ======================
 // CARGA DE DATOS
 // ======================
+// scripts.js
+// ------------------
+// Función para cargar un archivo JSON
 async function loadData(url) {
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Error ${response.status} al cargar ${url}`);
-    return await response.json();
-  } catch (error) {
-    console.error(`Error procesando ${url}:`, error);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Error ${res.status} al cargar ${url}`);
+    return await res.json();
+  } catch (err) {
+    console.error(`Error procesando ${url}:`, err);
     return [];
   }
 }
 
+// Función que une validados y no validados
 async function loadDataset() {
-  try {
-    const [noValidados, validados] = await Promise.all([
-      loadData('casos_no_validados.json'),
-      loadData('casos_validados.json')
-    ]);
+  const validados = await loadData("data/casos_validados.json");
+  const noValidados = await loadData("data/casos_no_validados.json");
 
-    const allRecords = [
-      ...noValidados.map(r => normalizeRecord({ ...r, __origen: "no-validado" })),
-      ...validados.map(r => normalizeRecord({ ...r, __origen: "validado" }))
-    ];
-    const uniqueRecordsMap = new Map();
+  // Normalizamos los nombres de campos para que coincidan
+  const normalizadosValidados = validados.map(c => ({
+    nombre: c.Nombre || c["Nombre"] || c["Nombre "] || "No especificado",
+    edad: c.Edad || c["Edad "] || "No especificado",
+    genero: c.Género || c["Género"] || c["Género "] || "No especificado",
+    localizacion: c.Localizacion || c.Localización || c["Localización"] || "No especificada",
+    pruebas: c["Pruebas realizadas"] || c["Pruebas realizadas  (ej: array genético, EEG, resonancia)  "] || "No especificadas",
+    sintomas: c["síntomas principales"] || c["síntomas principales  "] || "No especificados",
+    gravedad: c["Nivel de afectación"] || "No especificado",
+    medicamentos: c["Medicamentos actuales/pasados"] || c["Medicamentos actuales/pasados\n (ej: risperidona, magnesio):  "] || "No especificado",
+    terapias: c["Terapias recibidas"] || c["Terapias recibidas\n(logopedia, psicoterapia, etc.):  "] || "No especificado",
+    desafios: c["Necesidades y Desafíos"] || c[" Necesidades y Desafíos"] || "No especificado",
+    __origen: "validado"
+  }));
 
-    allRecords.forEach(record => {
-      if (!uniqueRecordsMap.has(record.id)) {
-        uniqueRecordsMap.set(record.id, record);
-      } else {
-        const existing = uniqueRecordsMap.get(record.id);
-        if (record.__origen === "validado" && existing.__origen !== "validado") {
-          uniqueRecordsMap.set(record.id, record);
-        }
-      }
-    });
+  const normalizadosNoValidados = noValidados.map(c => ({
+    nombre: c.Nombre || "No especificado",
+    edad: c.Edad || c["Edad"] || "No especificado",
+    genero: c.Género || "No especificado",
+    localizacion: c.Localizacion || "No especificada",
+    pruebas: c["Pruebas realizadas"] || "No especificadas",
+    sintomas: c["síntomas principales"] || "No especificados",
+    gravedad: c["Nivel de afectación"] || "No especificado",
+    medicamentos: c["Medicamentos actuales/pasados"] || "No especificado",
+    terapias: c["Terapias recibidas"] || "No especificado",
+    desafios: c["Necesidades y Desafíos"] || "No especificado",
+    __origen: "no_validado"
+  }));
 
-    return Array.from(uniqueRecordsMap.values()).sort((a, b) => 
-      a.nombre.localeCompare(b.nombre)
-    );
-  } catch (error) {
-    console.error('Error cargando dataset:', error);
-    return [];
-  }
+  return [...normalizadosValidados, ...normalizadosNoValidados];
+}
+
+// Helper para el badge de gravedad
+function gravBadge(nivel) {
+  if (!nivel) return "badge";
+  const nivelLower = nivel.toLowerCase();
+  if (nivelLower.includes("leve")) return "badge leve";
+  if (nivelLower.includes("moderado")) return "badge mod";
+  if (nivelLower.includes("severo") || nivelLower.includes("grave")) return "badge grave";
+  return "badge";
 }
 
 // ======================
