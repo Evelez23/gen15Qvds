@@ -18,7 +18,10 @@ async function initIndex() {
       <h2>${total}</h2>
       <p>Total de casos</p>
     </div>
-    <div class="panel kpi">
+   <div class="panel kpi">
+  <h2>${paises.length}</h2>
+  <p>Países con casos</p>
+</div>
       <h2>${validados}</h2>
       <p>Casos validados</p>
     </div>
