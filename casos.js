@@ -1,19 +1,3 @@
-<div class="controls">
-  <input type="text" id="search" placeholder="Buscar casos por nombre, ubicación o síntomas..." aria-label="Buscar casos">
-  
-  <select id="filtro-genero">
-    <option value="">Todos los géneros</option>
-    <option value="m">Masculino</option>
-    <option value="f">Femenino</option>
-  </select>
-
-  <select id="filtro-gravedad">
-    <option value="">Todos los niveles</option>
-    <option value="leve">Leve</option>
-    <option value="moderado">Moderado</option>
-    <option value="severo">Severo</option>
-  </select>
-</div>
 async function initCasos() {
   const data = await loadDataset();
 
