@@ -192,5 +192,34 @@ body {
   gap: 16px;
   margin: 28px 0 16px;
 }
+.hero-genetica {
+  text-align: center;
+  margin: 20px auto 40px;
+}
+
+.hero-genetica .hero-image {
+  max-width: 60%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.image-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icono-dna {
+  max-width: 120px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.image-side {
+  max-width: 80%;
+  height: auto;
+  border-radius: 12px;
+}
 
 /* ... (el resto de estilos queda igual que tu CSS original) */
