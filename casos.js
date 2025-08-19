@@ -1,10 +1,12 @@
 async function initCasos() {
   const data = await loadDataset();
-  const container = document.getElementById('casos-list');
-  
-  function renderCasos(casos) {
+
+  const contValidados = document.getElementById('casos-validados');
+  const contNoValidados = document.getElementById('casos-no-validados');
+
+  function renderCasos(casos, container) {
     container.innerHTML = '';
-    
+
     if (casos.length === 0) {
       container.innerHTML = `
         <div class="panel" style="grid-column:1/-1">
@@ -13,7 +15,7 @@ async function initCasos() {
       `;
       return;
     }
-    
+
     const casosHTML = casos.map(caso => `
       <div class="panel">
         <div class="panel-header">
@@ -30,12 +32,12 @@ async function initCasos() {
         <p><strong>Características:</strong> ${caso.sintomas || 'No especificadas'}</p>
       </div>
     `).join('');
-    
+
     container.innerHTML = casosHTML;
 
     if (window.anime) {
       anime({
-        targets: '.panel',
+        targets: container.querySelectorAll('.panel'),
         opacity: [0, 1],
         translateY: [10, 0],
         delay: anime.stagger(80),
@@ -45,24 +47,28 @@ async function initCasos() {
     }
   }
 
-  document.getElementById('search')?.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase().trim();
-    if (!term) {
-      renderCasos(data);
-      return;
-    }
-    
-    const filtered = data.filter(c => 
-      (c.nombre?.toLowerCase().includes(term) ||
+  function filtrarYRenderizar(term = '') {
+    const filtrados = data.filter(c =>
+      c.nombre?.toLowerCase().includes(term) ||
       c.localizacion?.toLowerCase().includes(term) ||
       c.sintomas?.toLowerCase().includes(term) ||
       c.gravedad?.toLowerCase().includes(term)
     );
-    
-    renderCasos(filtered);
+
+    const validados = filtrados.filter(c => c.__origen === 'validado');
+    const noValidados = filtrados.filter(c => c.__origen === 'no_validado');
+
+    renderCasos(validados, contValidados);
+    renderCasos(noValidados, contNoValidados);
+  }
+
+  document.getElementById('search')?.addEventListener('input', (e) => {
+    filtrarYRenderizar(e.target.value.toLowerCase().trim());
   });
 
-  renderCasos(data);
+  // Render inicial
+  filtrarYRenderizar();
 }
 
 document.addEventListener('DOMContentLoaded', initCasos);
+
