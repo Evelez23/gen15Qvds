@@ -1,66 +1,96 @@
-async function init() {
-const data = await loadDataset();
-const total = data.length;
-const val = data.filter(r => r.__origen === 'validado').length;
-const nov = total - val;
-const severos = data.filter(r => isSevereCase(r.gravedad)).length;
+async function initIndex() {
+  const data = await loadDataset();
 
-document.getElementById('kpis').innerHTML = <div class="card"> <div class="k">Casos únicos</div> <div class="v">${total}</div> </div> <div class="card"> <div class="k">Validados</div> <div class="v">${val} <span class="badge src-valid">${pct(val,total)}%</span></div> </div> <div class="card"> <div class="k">Por validar</div> <div class="v">${nov} <span class="badge src-novalid">${pct(nov,total)}%</span></div> </div> <div class="card"> <div class="k">Casos severos</div> <div class="v">${severos} <span class="badge high">${pct(severos,total)}%</span></div> </div> ;
+  // ---- KPIs ----
+  const total = data.length;
+  const validados = data.filter(c => c.__origen === "validado").length;
+  const noValidados = data.filter(c => c.__origen === "no_validado").length;
 
-const buckets = { '0-5':0, '6-10':0, '11-15':0, '16+':0 };
-data.forEach(r => {
-const e = Number(r.edad) || 0;
-if(e <= 5) buckets['0-5']++;
-else if(e <= 10) buckets['6-10']++;
-else if(e <= 15) buckets['11-15']++;
-else buckets['16+']++;
-});
+  // Países / localización distintos (excluyendo "No especificada")
+  const paises = [...new Set(data
+    .map(c => (c.localizacion || "").toLowerCase())
+    .filter(p => p && p !== "no especificada"))];
 
-new Chart(document.getElementById('chartAges').getContext('2d'), {
-type: 'bar',
-data: {
-labels: Object.keys(buckets),
-datasets: [{
-label: 'Pacientes',
-data: Object.values(buckets),
-backgroundColor: 'rgba(110, 168, 254, 0.6)'
-}]
-},
-options: {
-responsive: true,
-scales: { y: { beginAtZero: true } }
-}
-});
+  // Render de KPIs
+  const kpiContainer = document.getElementById("kpis");
+  kpiContainer.innerHTML = `
+    <div class="panel kpi">
+      <h2>${total}</h2>
+      <p>Total de casos</p>
+    </div>
+    <div class="panel kpi">
+      <h2>${validados}</h2>
+      <p>Casos validados</p>
+    </div>
+    <div class="panel kpi">
+      <h2>${noValidados}</h2>
+      <p>Casos no validados</p>
+    </div>
+    <div class="panel kpi">
+      <h2>${paises.length}</h2>
+      <p>Países representados</p>
+    </div>
+  `;
 
-new Chart(document.getElementById('chartOrigen').getContext('2d'), {
-type: 'doughnut',
-data: {
-labels: ['Validados','Sin validar'],
-datasets: [{
-data: [val, nov],
-backgroundColor: ['#63e6be', '#ffd43b']
-}]
-},
-options: {
-responsive: true,
-plugins: {
-legend: {
-position: 'bottom'
-}
-}
-}
-});
+  // ---- Distribución por edades ----
+  const buckets = {
+    "0-5": 0,
+    "6-12": 0,
+    "13-18": 0,
+    "19+": 0,
+    "No especificada": 0
+  };
 
-if(window.anime) {
-anime({
-targets: '.card, .panel',
-opacity: [0,1],
-translateY: [10,0],
-delay: anime.stagger(70),
-duration: 700,
-easing: 'easeOutQuad'
-});
-}
+  data.forEach(c => {
+    const edad = parseInt(c.edad);
+    if (!isNaN(edad)) {
+      if (edad <= 5) buckets["0-5"]++;
+      else if (edad <= 12) buckets["6-12"]++;
+      else if (edad <= 18) buckets["13-18"]++;
+      else buckets["19+"]++;
+    } else {
+      buckets["No especificada"]++;
+    }
+  });
+
+  const ctxAges = document.getElementById("chartAges").getContext("2d");
+  new Chart(ctxAges, {
+    type: "bar",
+    data: {
+      labels: Object.keys(buckets),
+      datasets: [{
+        label: "Número de casos",
+        data: Object.values(buckets),
+        backgroundColor: "#4e79a7"
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+      }
+    }
+  });
+
+  // ---- Estado de los casos ----
+  const ctxOrigen = document.getElementById("chartOrigen").getContext("2d");
+  new Chart(ctxOrigen, {
+    type: "doughnut",
+    data: {
+      labels: ["Validados", "No validados"],
+      datasets: [{
+        data: [validados, noValidados],
+        backgroundColor: ["#59a14f", "#e15759"]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: "bottom" }
+      }
+    }
+  });
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener("DOMContentLoaded", initIndex);
