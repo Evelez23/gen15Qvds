@@ -4,6 +4,14 @@ async function initCasos() {
   const contValidados = document.getElementById('casos-validados');
   const contNoValidados = document.getElementById('casos-no-validados');
 
+  function iconoGeneroEdad(genero, edad) {
+    if (!genero) return "👤";
+    const g = genero.toLowerCase();
+    if (g.startsWith("m")) return edad && edad < 18 ? "👦" : "👨";
+    if (g.startsWith("f")) return edad && edad < 18 ? "👧" : "👩";
+    return "👤";
+  }
+
   function renderCasos(casos, container) {
     container.innerHTML = '';
 
@@ -16,25 +24,46 @@ async function initCasos() {
       return;
     }
 
-    const casosHTML = casos.map(caso => `
+    const casosHTML = casos.map((caso, i) => `
       <div class="panel">
-        <div class="panel-header">
-          <h3>${caso.nombre || 'Nombre no disponible'}</h3>
+        <div class="panel-header toggle" data-id="${i}">
+          <h3>
+            ${iconoGeneroEdad(caso.genero, caso.edad)} 
+            ${caso.nombre || 'Nombre no disponible'}
+          </h3>
           <div style="display:flex;gap:8px">
             <span class="${gravBadge(caso.gravedad)}">${caso.gravedad || 'No especificado'}</span>
             ${caso.__origen === 'validado' ? '<span class="badge ok">Validado</span>' : '<span class="badge med">Por validar</span>'}
           </div>
         </div>
-        <p><strong>Edad:</strong> ${caso.edad || 'No especificado'} años</p>
-        <p><strong>Género:</strong> ${caso.genero || 'No especificado'}</p>
-        <p><strong>Ubicación:</strong> ${caso.localizacion || 'No especificada'}</p>
-        <p><strong>Pruebas realizadas:</strong> ${caso.pruebas || 'No especificadas'}</p>
-        <p><strong>Características:</strong> ${caso.sintomas || 'No especificadas'}</p>
+        <div class="panel-body" style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
+          <p><strong>Edad:</strong> ${caso.edad || 'No especificado'} años</p>
+          <p><strong>Género:</strong> ${caso.genero || 'No especificado'}</p>
+          <p><strong>Ubicación:</strong> ${caso.localizacion || 'No especificada'}</p>
+          <p><strong>Pruebas realizadas:</strong> ${caso.pruebas || 'No especificadas'}</p>
+          <p><strong>Síntomas:</strong> ${caso.sintomas || 'No especificados'}</p>
+          <p><strong>Medicamentos:</strong> ${caso.medicamentos || 'No especificados'}</p>
+          <p><strong>Terapias:</strong> ${caso.terapias || 'No especificadas'}</p>
+          <p><strong>Necesidades y Desafíos:</strong> ${caso.desafios || 'No especificados'}</p>
+        </div>
       </div>
     `).join('');
 
     container.innerHTML = casosHTML;
 
+    // Toggle accordion animado
+    container.querySelectorAll('.panel-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const body = header.nextElementSibling;
+        if (body.style.maxHeight && body.style.maxHeight !== "0px") {
+          body.style.maxHeight = "0";
+        } else {
+          body.style.maxHeight = body.scrollHeight + "px";
+        }
+      });
+    });
+
+    // Animación de aparición de tarjetas
     if (window.anime) {
       anime({
         targets: container.querySelectorAll('.panel'),
@@ -71,4 +100,3 @@ async function initCasos() {
 }
 
 document.addEventListener('DOMContentLoaded', initCasos);
-
