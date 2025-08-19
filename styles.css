@@ -70,6 +70,25 @@ background: linear-gradient(135deg, var(--primary), var(--accent));
 box-shadow: var(--shadow);
 }
 
+/* Logo en el nav */
+.brand img.logo {
+  height: 40px;       /* ajusta el alto a algo elegante */
+  width: auto;        /* mantiene la proporción */
+  margin-right: 10px; /* separa un poco del texto */
+  background: none;   /* eliminamos el degradado */
+  border: none;       /* por si tenía borde */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Imagen del héroe */
+.hero .image img {
+  max-width: 50%;     /* ahora ocupa la mitad */
+  height: auto;
+  border-radius: 10px; /* opcional: esquinas suaves */
+  display: block;
+  margin: 0 auto;      /* la centra */
+}
 .nav a {
 color: var(--muted);
 text-decoration: none;
