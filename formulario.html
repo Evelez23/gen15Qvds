@@ -1,79 +1,21 @@
 <!doctype html><html lang="es"> <head> <meta charset="utf-8"/> <meta name="viewport" content="width=device-width, initial-scale=1"/> <title>Reportar caso | Microdeleción 15q11.2</title> <meta name="description" content="Formulario para reportar nuevos casos de microdeleción 15q11.2"> <link rel="stylesheet" href="styles.css"/> <script defer src="scripts.js"></script> </head> <body> <nav class="nav"> <div class="inner"> <div class="brand"><div class="logo"></div><div>Microdeleción 15q11.2</div></div> <div class="nav-links"> <a href="index.html">Inicio</a> <a href="resumen.html">Resumen</a> <a href="casos.html">Casos</a> <a href="genetica.html">Genética</a> <a href="estadisticas.html">Estadísticas</a> <a class="btn-agregar" href="formulario.html">Reportar caso</a> </div> </div> </nav> <section class="container"> <h1>Reportar un caso</h1> <p class="subtitle">Comparte información sobre un caso de microdeleción 15q11.2 para ayudar a nuestra comunidad</p>
 <form id="form-caso" class="grid-2">
   <div class="panel">
-    <h2>Información básica</h2>
-    <div class="form-group">
-      <label for="nombre">Nombre (opcional)</label>
-      <input type="text" id="nombre" class="input" placeholder="Puede ser un seudónimo">
-    </div>
-    
-    <div class="form-group">
-      <label for="edad">Edad</label>
-      <input type="number" id="edad" class="input" required min="0" max="120">
-    </div>
-    
-    <div class="form-group">
-      <label for="genero">Género</label>
-      <select id="genero" class="input" required>
-        <option value="">Seleccionar...</option>
-        <option value="Masculino">Masculino</option>
-        <option value="Femenino">Femenino</option>
-        <option value="Otro">Otro</option>
-        <option value="Prefiero no decir">Prefiero no decir</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="localizacion">Ubicación (país/ciudad)</label>
-      <input type="text" id="localizacion" class="input">
-    </div>
-  </div>
-  
-  <div class="panel">
-    <h2>Información clínica</h2>
-    <div class="form-group">
-      <label for="sintomas">Síntomas principales</label>
-      <textarea id="sintomas" class="input" rows="3" placeholder="Describa los síntomas principales separados por comas"></textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="gravedad">Nivel de afectación</label>
-      <select id="gravedad" class="input">
-        <option value="">Seleccionar...</option>
-        <option value="Leve">Leve (vida independiente con apoyos mínimos)</option>
-        <option value="Moderado">Moderado (necesita apoyo significativo)</option>
-        <option value="Severo">Severo (dependencia total)</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="pruebas">Pruebas realizadas</label>
-      <textarea id="pruebas" class="input" rows="2" placeholder="Ej: Array genético, EEG, resonancia..."></textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="terapias">Terapias recibidas</label>
-      <input type="text" id="terapias" class="input" placeholder="Ej: Logopedia, fisioterapia...">
-    </div>
-  </div>
-  
-  <div class="panel" style="grid-column:1/-1">
-    <h2>Validación</h2>
-    <div class="form-group">
-      <label for="validacion">¿Este caso ha sido validado por un profesional médico?</label>
-      <select id="validacion" class="input">
-        <option value="no-validado">No validado</option>
-        <option value="validado">Sí, validado por profesional</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="comentarios">Comentarios adicionales</label>
-      <textarea id="comentarios" class="input" rows="3" placeholder="Otra información relevante"></textarea>
-    </div>
-    
-    <button type="submit" class="button" style="margin-top:16px">Enviar caso</button>
-  </div>
-</form>
+     </header>
+
+  <main class="container">
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSflOhcRHnCXRPBr8TWlCI78yktvRBtssCQPufK_BqO3kj-29A/viewform?embedded=true"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      width="100%"
+      height="1200"
+      style="border:0">
+      Cargando…
+    </iframe>
+  </main>
+<script src="/js/form-validator.js" type="module"></script>
+  <footer>
 
 </section> <footer class="footer">© 2025 | Formulario seguro y confidencial</footer> </body> </html> 
