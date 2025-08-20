@@ -7,7 +7,7 @@ async function initCasos() {
   const filtroGenero = document.getElementById('filtro-genero');
   const filtroGravedad = document.getElementById('filtro-gravedad');
 
-  // Helper para icono
+  // Helper → icono según género y edad
   function iconoGeneroEdad(genero, edad) {
     if (!genero) return "👤";
     const g = genero.toLowerCase();
@@ -16,7 +16,7 @@ async function initCasos() {
     return "👤";
   }
 
-  // Helper para formatear en listas
+  // Helper → listas con viñetas
   function formatearLista(texto) {
     if (!texto) return "No especificado";
     if (texto.includes(";")) {
@@ -52,14 +52,14 @@ async function initCasos() {
         </div>
         <button class="btn-toggle">Ver más</button>
         <div class="panel-body" style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
-          <p><strong>Edad:</strong> ${caso.edad || 'No especificado'} años</p>
-          <p><strong>Género:</strong> ${caso.genero || 'No especificado'}</p>
-          <p><strong>Ubicación:</strong> ${caso.localizacion || 'No especificada'}</p>
-          <p><strong>Pruebas realizadas:</strong> ${formatearLista(caso.pruebas)}</p>
-          <p><strong>Síntomas:</strong> ${formatearLista(caso.sintomas)}</p>
-          <p><strong>Medicamentos:</strong> ${formatearLista(caso.medicamentos)}</p>
-          <p><strong>Terapias:</strong> ${formatearLista(caso.terapias)}</p>
-          <p><strong>Necesidades y Desafíos:</strong> ${formatearLista(caso.desafios)}</p>
+          <div class="detalle"><strong>Edad:</strong> ${caso.edad || 'No especificado'} años</div>
+          <div class="detalle"><strong>Género:</strong> ${caso.genero || 'No especificado'}</div>
+          <div class="detalle"><strong>Ubicación:</strong> ${caso.localizacion || 'No especificada'}</div>
+          <div class="detalle"><strong>Pruebas realizadas:</strong> ${formatearLista(caso.pruebas)}</div>
+          <div class="detalle"><strong>Síntomas:</strong> ${formatearLista(caso.sintomas)}</div>
+          <div class="detalle"><strong>Medicamentos:</strong> ${formatearLista(caso.medicamentos)}</div>
+          <div class="detalle"><strong>Terapias:</strong> ${formatearLista(caso.terapias)}</div>
+          <div class="detalle"><strong>Necesidades y Desafíos:</strong> ${formatearLista(caso.desafios)}</div>
         </div>
       </div>
     `).join('');
@@ -80,7 +80,7 @@ async function initCasos() {
       });
     });
 
-    // Animación aparición tarjetas
+    // Animación de aparición
     if (window.anime) {
       anime({
         targets: container.querySelectorAll('.panel'),
@@ -96,7 +96,7 @@ async function initCasos() {
   function filtrarYRenderizar(term = '') {
     let filtrados = data;
 
-    // Filtro por búsqueda
+    // Búsqueda
     if (term) {
       filtrados = filtrados.filter(c =>
         c.nombre?.toLowerCase().includes(term) ||
@@ -106,16 +106,15 @@ async function initCasos() {
       );
     }
 
-    // Filtro por género
+    // Filtros
     if (filtroGenero.value) {
       filtrados = filtrados.filter(c => (c.genero || "").toLowerCase().startsWith(filtroGenero.value.toLowerCase()));
     }
-
-    // Filtro por gravedad
     if (filtroGravedad.value) {
       filtrados = filtrados.filter(c => (c.gravedad || "").toLowerCase().includes(filtroGravedad.value.toLowerCase()));
     }
 
+    // División
     const validados = filtrados.filter(c => c.__origen === 'validado');
     const noValidados = filtrados.filter(c => c.__origen === 'no_validado');
 
@@ -123,7 +122,7 @@ async function initCasos() {
     renderCasos(noValidados, contNoValidados);
   }
 
-  // Eventos de filtros
+  // Eventos
   document.getElementById('search')?.addEventListener('input', (e) => {
     filtrarYRenderizar(e.target.value.toLowerCase().trim());
   });
@@ -135,3 +134,4 @@ async function initCasos() {
 }
 
 document.addEventListener('DOMContentLoaded', initCasos);
+
