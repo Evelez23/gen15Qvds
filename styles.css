@@ -221,5 +221,53 @@ body {
   height: auto;
   border-radius: 12px;
 }
+/* Separación entre secciones */
+#casos-no-validados {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #ddd;
+}
+
+/* Detalles dentro de Ver más */
+.panel-body .detalle {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.panel-body .detalle:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Listas dentro del detalle */
+.panel-body ul {
+  margin: 6px 0 6px 20px;
+  padding: 0;
+  list-style-type: disc;
+}
+
+.panel-body li {
+  margin-bottom: 4px;
+}
+
+/* Botón toggle */
+.btn-toggle {
+  background: #f5f5f5;
+  border: none;
+  color: #333;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-toggle:hover {
+  background: #e2e2e2;
+}
 
 /* ... (el resto de estilos queda igual que tu CSS original) */
