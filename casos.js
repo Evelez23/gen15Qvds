@@ -105,6 +105,23 @@ async function initCasos() {
         c.gravedad?.toLowerCase().includes(term)
       );
     }
+// Toggle con animación + flecha giratoria (exclusivo)
+container.querySelectorAll('.panel-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
+    const isOpen = body.style.maxHeight && body.style.maxHeight !== "0px";
+
+    // Cerrar todos los demás antes de abrir este
+    container.querySelectorAll('.panel-body').forEach(b => b.style.maxHeight = "0");
+    container.querySelectorAll('.arrow').forEach(a => a.classList.remove("open"));
+
+    if (!isOpen) {
+      body.style.maxHeight = body.scrollHeight + "px";
+      arrow.classList.add("open");
+    }
+  });
+});
 
     // Filtros
     if (filtroGenero.value) {
