@@ -16,7 +16,7 @@ async function initCasos() {
     return "👤";
   }
 
-  // Helper → listas con viñetas
+  // Helper → listas con viñetas si hay ";"
   function formatearLista(texto) {
     if (!texto) return "No especificado";
     if (texto.includes(";")) {
@@ -41,46 +41,47 @@ async function initCasos() {
     const casosHTML = casos.map((caso, i) => `
       <div class="panel">
         <div class="panel-header toggle" data-id="${i}">
-          <h3>
-            ${iconoGeneroEdad(caso.genero, caso.edad)} 
-            ${caso.nombre || 'Nombre no disponible'}
-          </h3>
-          <div style="display:flex;gap:8px">
+          <div class="panel-title">
+            <h3>${iconoGeneroEdad(caso.genero, caso.edad)} ${caso.nombre || 'Nombre no disponible'}</h3>
             <span class="${gravBadge(caso.gravedad)}">${caso.gravedad || 'No especificado'}</span>
-            ${caso.__origen === 'validado' ? '<span class="badge ok">Validado</span>' : '<span class="badge med">Por validar</span>'}
           </div>
+          <span class="arrow">▶</span>
         </div>
-        <button class="btn-toggle">Ver más</button>
         <div class="panel-body" style="max-height:0; overflow:hidden; transition:max-height 0.4s ease;">
-          <div class="detalle"><strong>Edad:</strong> ${caso.edad || 'No especificado'} años</div>
-          <div class="detalle"><strong>Género:</strong> ${caso.genero || 'No especificado'}</div>
-          <div class="detalle"><strong>Ubicación:</strong> ${caso.localizacion || 'No especificada'}</div>
-          <div class="detalle"><strong>Pruebas realizadas:</strong> ${formatearLista(caso.pruebas)}</div>
-          <div class="detalle"><strong>Síntomas:</strong> ${formatearLista(caso.sintomas)}</div>
-          <div class="detalle"><strong>Medicamentos:</strong> ${formatearLista(caso.medicamentos)}</div>
-          <div class="detalle"><strong>Terapias:</strong> ${formatearLista(caso.terapias)}</div>
-          <div class="detalle"><strong>Necesidades y Desafíos:</strong> ${formatearLista(caso.desafios)}</div>
+          <p><strong>Nivel de afectación:</strong> ${caso.gravedad || 'No especificado'}</p>
+          <p><strong>Edad:</strong> ${caso.edad || 'No especificado'} años</p>
+          <p><strong>Género:</strong> ${caso.genero || 'No especificado'}</p>
+          <p><strong>Ubicación:</strong> ${caso.localizacion || 'No especificada'}</p>
+          <p><strong>Pruebas realizadas:</strong> ${formatearLista(caso.pruebas)}</p>
+          <p><strong>Síntomas:</strong> ${formatearLista(caso.sintomas)}</p>
+          <p><strong>Medicamentos:</strong> ${formatearLista(caso.medicamentos)}</p>
+          <p><strong>Terapias:</strong> ${formatearLista(caso.terapias)}</p>
+          <p><strong>Necesidades y Desafíos:</strong> ${formatearLista(caso.desafios)}</p>
         </div>
       </div>
     `).join('');
 
     container.innerHTML = casosHTML;
 
-    // Toggle con animación y botón
-    container.querySelectorAll('.btn-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const body = btn.nextElementSibling;
-        if (body.style.maxHeight && body.style.maxHeight !== "0px") {
-          body.style.maxHeight = "0";
-          btn.textContent = "Ver más";
-        } else {
+    // Toggle con animación + flecha giratoria (exclusivo)
+    container.querySelectorAll('.panel-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const body = header.nextElementSibling;
+        const arrow = header.querySelector('.arrow');
+        const isOpen = body.style.maxHeight && body.style.maxHeight !== "0px";
+
+        // Cerrar todos antes de abrir el seleccionado
+        container.querySelectorAll('.panel-body').forEach(b => b.style.maxHeight = "0");
+        container.querySelectorAll('.arrow').forEach(a => a.classList.remove("open"));
+
+        if (!isOpen) {
           body.style.maxHeight = body.scrollHeight + "px";
-          btn.textContent = "Ver menos";
+          arrow.classList.add("open");
         }
       });
     });
 
-    // Animación de aparición
+    // Animación de aparición de tarjetas
     if (window.anime) {
       anime({
         targets: container.querySelectorAll('.panel'),
@@ -105,33 +106,16 @@ async function initCasos() {
         c.gravedad?.toLowerCase().includes(term)
       );
     }
-// Toggle con animación + flecha giratoria (exclusivo)
-container.querySelectorAll('.panel-header').forEach(header => {
-  header.addEventListener('click', () => {
-    const body = header.nextElementSibling;
-    const arrow = header.querySelector('.arrow');
-    const isOpen = body.style.maxHeight && body.style.maxHeight !== "0px";
-
-    // Cerrar todos los demás antes de abrir este
-    container.querySelectorAll('.panel-body').forEach(b => b.style.maxHeight = "0");
-    container.querySelectorAll('.arrow').forEach(a => a.classList.remove("open"));
-
-    if (!isOpen) {
-      body.style.maxHeight = body.scrollHeight + "px";
-      arrow.classList.add("open");
-    }
-  });
-});
 
     // Filtros
-    if (filtroGenero.value) {
+    if (filtroGenero && filtroGenero.value) {
       filtrados = filtrados.filter(c => (c.genero || "").toLowerCase().startsWith(filtroGenero.value.toLowerCase()));
     }
-    if (filtroGravedad.value) {
+    if (filtroGravedad && filtroGravedad.value) {
       filtrados = filtrados.filter(c => (c.gravedad || "").toLowerCase().includes(filtroGravedad.value.toLowerCase()));
     }
 
-    // División
+    // División validados / no validados
     const validados = filtrados.filter(c => c.__origen === 'validado');
     const noValidados = filtrados.filter(c => c.__origen === 'no_validado');
 
@@ -151,4 +135,3 @@ container.querySelectorAll('.panel-header').forEach(header => {
 }
 
 document.addEventListener('DOMContentLoaded', initCasos);
-
