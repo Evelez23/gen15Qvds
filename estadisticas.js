@@ -34,8 +34,8 @@ text: 'Número de casos'
 async function cargarEstadisticas() {
   try {
     const [validados, noValidados] = await Promise.all([
-      fetch("data/casos_validados.json").then(r => r.json()),
-      fetch("data/casos_no_validados.json").then(r => r.json())
+      fetch("https://raw.githubusercontent.com/Evelez23/gen15Qvds/main/data/casos_validados.json").then(r => r.json()),
+      fetch("https://raw.githubusercontent.com/Evelez23/gen15Qvds/main/data/casos_no_validados.json").then(r => r.json())
     ]);
 
     const totalCasos = validados.length + noValidados.length;
@@ -51,6 +51,9 @@ async function cargarEstadisticas() {
   } catch (err) {
     console.error("Error cargando estadísticas", err);
   }
+}
+document.addEventListener("DOMContentLoaded", cargarEstadisticas);
+
 }
 document.addEventListener("DOMContentLoaded", cargarEstadisticas);
 
