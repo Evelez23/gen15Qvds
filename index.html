@@ -6,9 +6,7 @@
   <title>Microdeleción 15q11.2 – Portal Comunitario</title>
   <link rel="stylesheet" href="styles.css"/>
   <script defer src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="scripts.js"></script>
-  <script defer src="index.js"></script>
 </head>
 <body>
   <nav class="nav">
@@ -18,7 +16,7 @@
         <div>Microdeleción 15q11.2</div>
       </div>
       <div class="nav-links">
-        <a href="index.html">Inicio</a>
+        <a href="index.html" class="active">Inicio</a>
         <a href="resumen.html">Resumen</a>
         <a href="casos.html">Casos</a>
         <a href="genetica.html">Genética</a>
@@ -29,32 +27,92 @@
   </nav>
 
   <section class="hero">
-    <div class="container">
-      <div class="wrap">
-        <div>
-          <h1>Microdeleción 15q11.2 – Comunidad de Familias</h1>
-          <p>Plataforma colaborativa para documentar y comprender la microdeleción 15q11.2 <strong>desde la perspectiva de las familias afectadas</strong>.</p>
-          <div class="cta">
-            <a class="button" href="casos.html">Ver casos</a>
-            <a class="button secondary" href="resumen.html">Ver resumen</a>
-          </div>
-        </div>
-        <div class="image">
-          <img src="https://raw.githubusercontent.com/Evelez23/-microdelecion/refs/heads/main/img/7572d736-f7ab-41b2-84a4-1b5a419f2c94.jpg" alt="Familias Microdeleción 15q11.2">
+    <div class="container hero-flex">
+      <!-- Testimonio colectivo -->
+      <div class="testimonio">
+        <h1>“No estamos solos”</h1>
+        <p>Aunque cada niño es un mundo y la enfermedad nos sorprende con nuevas curvas, aquí compartimos el miedo, la rabia y también la alegría de cada pequeño paso:</p>
+        <ul>
+          <li>La primera palabra</li>
+          <li>El primer bocado</li>
+          <li>El día sin crisis</li>
+        </ul>
+        <p>Lloramos juntos, reímos juntos y, sobre todo, luchamos juntos. Porque somos muchos bajo el mismo gen y, entre todos, <strong>ya sabemos más que los libros</strong>.</p>
+        <div class="cta">
+          <a class="button" href="casos.html">Ver casos</a>
+          <a class="button secondary" href="resumen.html">Ver resumen</a>
         </div>
       </div>
 
-      <div class="cards" id="kpis"></div>
+      <!-- Ilustración SVG -->
+      <div class="ilustracion">
+        <svg width="100%" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+          <title id="title">Unión de familias 15q11.2 — apoyo, esperanza y diversidad</title>
+          <desc id="desc">Formas abstractas entrelazadas que rodean siluetas de distintas alturas, simbolizando niños, jóvenes y adultos. A la derecha, dos barras representan el cromosoma 15 con una banda sutil indicando la región q11.2. Colores suaves y composición ordenada para uso en un sitio profesional.</desc>
+          <defs>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7FAEAD"/>
+              <stop offset="50%" stop-color="#C8B8E3"/>
+              <stop offset="100%" stop-color="#E9C8A4"/>
+            </linearGradient>
+            <linearGradient id="infGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#7FAEAD" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#C8B8E3" stop-opacity="0.25"/>
+            </linearGradient>
+            <linearGradient id="chromGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#CBD6E0"/>
+              <stop offset="100%" stop-color="#9AAAB7"/>
+            </linearGradient>
+            <radialGradient id="bgGlow" cx="0.2" cy="0.45" r="0.7">
+              <stop offset="0%" stop-color="#FFFFFF" />
+              <stop offset="100%" stop-color="#F7F6F3" />
+            </radialGradient>
+          </defs>
 
-      <div class="grid-2">
-        <div class="panel">
-          <h3 style="margin-top:0">Distribución por edades</h3>
-          <canvas id="chartAges" height="140"></canvas>
-        </div>
-        <div class="panel">
-          <h3 style="margin-top:0">Estado de los casos</h3>
-          <canvas id="chartOrigen" height="140"></canvas>
-        </div>
+          <style>
+            .ink { fill: #32414A; }
+            .sage { fill: #9CBA9F; }
+            .petrol { fill: #7FAEAD; }
+            .lav { fill: #C8B8E3; }
+            .peach { fill: #E9C8A4; }
+            .gold { fill: #D8B36D; }
+          </style>
+
+          <!-- Fondo cálido y limpio -->
+          <rect x="0" y="0" width="1200" height="675" fill="url(#bgGlow)" />
+
+          <!-- Área de respiro -->
+          <rect x="60" y="120" width="420" height="435" fill="#FFFFFF" opacity="0.25" rx="24"/>
+
+          <!-- Anillo comunidad -->
+          <circle cx="900" cy="340" r="230" fill="none" stroke="url(#ringGrad)" stroke-width="28" opacity="0.85"/>
+
+          <!-- Abrazo/infinito -->
+          <path d="M720,340 C800,220 960,220 1040,340 C960,460 800,460 720,340" fill="none" stroke="url(#infGrad)" stroke-width="22" stroke-linecap="round"/>
+
+          <!-- Siluetas -->
+          <circle cx="745" cy="260" r="18" class="lav" opacity="0.95"/>
+          <rect x="727" y="278" width="36" height="150" rx="18" class="lav" opacity="0.95"/>
+          <circle cx="800" cy="235" r="22" class="petrol" opacity="0.95"/>
+          <rect x="778" y="257" width="44" height="190" rx="22" class="petrol" opacity="0.95"/>
+          <circle cx="860" cy="275" r="16" class="sage" opacity="0.95"/>
+          <rect x="844" y="291" width="32" height="120" rx="16" class="sage" opacity="0.95"/>
+
+          <!-- Cromosoma 15 -->
+          <g opacity="0.9">
+            <rect x="1000" y="200" width="28" height="300" rx="14" fill="url(#chromGrad)"/>
+            <rect x="1040" y="200" width="28" height="300" rx="14" fill="url(#chromGrad)"/>
+            <rect x="1040" y="250" width="28" height="24" rx="12" fill="#FFEFD3" opacity="0.9"/>
+          </g>
+
+          <!-- Detalles unión -->
+          <circle cx="900" cy="340" r="4" class="gold" />
+          <circle cx="720" cy="340" r="3" class="gold" opacity="0.7"/>
+          <circle cx="1040" cy="340" r="3" class="gold" opacity="0.7"/>
+
+          <!-- Base soporte -->
+          <ellipse cx="860" cy="520" rx="210" ry="18" fill="#32414A" opacity="0.06"/>
+        </svg>
       </div>
     </div>
   </section>
@@ -64,5 +122,47 @@
   </div>
 
   <footer class="footer">© 2025 | Comunidad de Familias 15q11.2</footer>
+
+  <style>
+    .hero-flex {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+    }
+    .testimonio {
+      flex: 1 1 400px;
+    }
+    .testimonio h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #32414A;
+    }
+    .testimonio p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .testimonio ul {
+      margin: 1rem 0;
+      padding-left: 1.2rem;
+      list-style: disc;
+    }
+    .ilustracion {
+      flex: 1 1 500px;
+      text-align: center;
+    }
+    .ilustracion svg {
+      max-width: 100%;
+      height: auto;
+    }
+    @media(max-width: 768px) {
+      .hero-flex {
+        flex-direction: column;
+      }
+      .testimonio h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
 </body>
 </html>
