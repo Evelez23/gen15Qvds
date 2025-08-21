@@ -36,6 +36,17 @@ async function initIndex() {
       </div>
     `;
   }
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await loadDataset();
+  const familias = new Set(data.map(d => (d.nombre || '').trim().toLowerCase())).size;
+  const casos = data.length;
+  const paises = new Set(data.map(d => (d.localizacion || '').split(',').pop()?.trim().toLowerCase())).size;
+
+  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setText('kpi-familias', `+${familias}`);
+  setText('kpi-casos', `+${casos}`);
+  setText('kpi-paises', `${paises}`);
+});
 
   // ---- Distribución por edades ----
   const buckets = {
