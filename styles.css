@@ -269,57 +269,5 @@ body {
 .btn-toggle:hover {
   background: #e2e2e2;
 }
-/* --- Testimonio colectivo --- */
-.colectivo {
-  margin: 1rem 0 1.25rem;
-  padding: 1rem 1.25rem;
-  border-left: 4px solid #7aa3ff; /* acento sobrio */
-  background: #f7f9ff;
-  border-radius: 8px;
-  color: #1a1f36;
-}
-.colectivo p { margin: 0; line-height: 1.55; }
-.colectivo footer {
-  margin-top: .65rem;
-  font-size: .9rem;
-  color: #60709a;
-}
-
-/* --- KPI cards minimal --- */
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 1rem; }
-.card.kpi { background:#fff; border:1px solid #eaecee; border-radius:12px; padding:14px; text-align:center; }
-.kpi-num { font-weight:700; font-size:1.4rem; }
-.kpi-label { font-size:.9rem; color:#6b7280; }
-
-/* --- Imagen del hero como figura (opción A) --- */
-.hero-figure img {
-  display:block; width:100%; height:auto;
-  border-radius:14px;
-  filter: saturate(.9) contrast(1.02);
-  box-shadow: 0 8px 24px rgba(16,24,40,.12);
-}
-
-/* --- Collage como fondo tenue (opción B, si quieres quitar <img>) --- */
-.hero {
-  /* background-image: url('img/collage_hero.jpg');  <-- activa si usas fondo */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.hero::before {
-  content:"";
-  display:block;
-  position:absolute; inset:0;
-  background: rgba(255,255,255,.70); /* velo para sobriedad */
-  pointer-events:none;
-}
-
-/* --- Responsive --- */
-@media (max-width: 768px) {
-  .wrap { display:block; }
-  .colectivo { padding: .9rem 1rem; }
-  .cards { grid-template-columns: 1fr; }
-  .kpi-num { font-size:1.25rem; }
-}
 
 /* ... (el resto de estilos queda igual que tu CSS original) */
