@@ -3,56 +3,576 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto</title>
+    <title>Análisis de Microdeleción - Patrones Clínicos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==============================
+           VARIABLES
+        ================================*/
+        :root {
+            --color-primary: #4a6fa5;
+            --color-secondary: #166088;
+            --color-accent: #4fc3f7;
+            --color-text: #333;
+            --color-bg: #f9f9f9;
+            --color-white: #ffffff;
+            --color-light-gray: #f2f2f2;
+            --color-highlight: #fffde7;
+            
+            --bg-dark: #1a1a1a;
+            --panel-dark: #111111;
+            --text-main: #eeeeee;
+            --text-secondary: #777777;
+            --accent: #b50111;
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+            --font: 'Montserrat', sans-serif;
+            --border-radius: 10px;
+            --box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
 
-    <link rel="stylesheet" href="styles.css">
+        /* ==============================
+           GLOBAL STYLES
+        ================================*/
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font);
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ==============================
+           HEADER
+        ================================*/
+        header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-white);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            animation: fadeIn 1.5s ease-in-out;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: var(--color-secondary);
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-weight: 500;
+        }
+
+        h3 {
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        /* ==============================
+           CARDS
+        ================================*/
+        .card {
+            background: var(--color-white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        }
+
+        /* ==============================
+           CHARTS
+        ================================*/
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 30px 0;
+        }
+
+        /* ==============================
+           TABLES
+        ================================*/
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--color-light-gray);
+        }
+
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        /* ==============================
+           HIGHLIGHTS & TAGS
+        ================================*/
+        .highlight {
+            background-color: var(--color-highlight);
+            padding: 3px 5px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+        }
+
+        /* ==============================
+           GRID LAYOUT
+        ================================*/
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        /* ==============================
+           ANIMATIONS
+        ================================*/
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            opacity: 0;
+        }
+
+        /* ==============================
+           FOOTER
+        ================================*/
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        /* ==============================
+           RESPONSIVE DESIGN
+        ================================*/
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+        }
+
+        /* ==============================
+           NAVIGATION (NEW)
+        ================================*/
+        .nav-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--color-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-x: auto;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        
+        .nav-link:hover {
+            color: var(--color-primary);
+            background-color: var(--color-light-gray);
+        }
+        
+        /* ==============================
+           PRINT STYLES
+        ================================*/
+        @media print {
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .nav-container {
+                display: none;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<section class="wrapper">
-
-    <div class="contact-card">
-
-        <div class="left">
-            <h1>Contact <span class="accent">US</span></h1>
-
-            <form class="contact-form">
-
-                <div class="input-group">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="Your Name">
-                </div>
-
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="Your Email">
-                </div>
-
-                <div class="input-group full">
-                    <label>Message</label>
-                    <textarea placeholder="Write your message..."></textarea>
-                </div>
-
-                <button>Send Message</button>
-            </form>
+    <header>
+        <div class="container">
+            <h1>Análisis de Pacientes con Microdeleción</h1>
+            <p>Identificación de patrones clínicos y correlaciones genotipo-fenotipo</p>
         </div>
+    </header>
 
-        <div class="right">
-            <h2>More Info</h2>
-
-            <p><span class="icon">📍</span> Honduras, Centroamérica</p>
-            <p><span class="icon">📞</span> +504 9999-9999</p>
-            <p><span class="icon">✉️</span> contacto@tuweb.com</p>
-            <hr>
-            <p>Feel free to reach out to us anytime. We’ll get back to you as soon as possible.</p>
+    <nav class="nav-container">
+        <div class="container">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#resumen" class="nav-link">Resumen</a></li>
+                <li class="nav-item"><a href="#patrones" class="nav-link">Patrones</a></li>
+                <li class="nav-item"><a href="#casos-destacados" class="nav-link">Casos</a></li>
+                <li class="nav-item"><a href="#genetica" class="nav-link">Genética</a></li>
+                <li class="nav-item"><a href="#recomendaciones" class="nav-link">Recomendaciones</a></li>
+            </ul>
         </div>
+    </nav>
 
+    <div class="container">
+        <section id="resumen">
+            <div class="card">
+                <h2>🔍 Resumen Ejecutivo</h2>
+                <p>El análisis de <span class="highlight">26 pacientes</span> con microdeleción revela patrones recurrentes, destacando:</p>
+                <div class="grid">
+                    <div>
+                        <h3>👶 Perfil Demográfico</h3>
+                        <p>• Edad media: <strong>9.3 años</strong> (rango 2-21)<br>
+                        • 58% hombres, 42% mujeres</p>
+                    </div>
+                    <div>
+                        <h3>🧠 Dominio Neurológico</h3>
+                        <p>• <strong>46%</strong> con TEA<br>
+                        • <strong>15%</strong> con epilepsia<br>
+                        • <strong>27%</strong> con hipotonía</p>
+                    </div>
+                    <div>
+                        <h3>❤️ Comorbilidades</h3>
+                        <p>• <strong>15%</strong> con disfagia<br>
+                        • <strong>8%</strong> con cardiopatías<br>
+                        • <strong>12%</strong> con anomalías óseas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="patrones">
+            <div class="card">
+                <h2>📊 Patrones Clínicos Principales</h2>
+                <div class="chart-container">
+                    <canvas id="patronesChart"></canvas>
+                </div>
+                <div class="grid">
+                    <div>
+                        <h3>🧬 Síndromes Asociados</h3>
+                        <span class="tag">TEA (46%)</span>
+                        <span class="tag">TDAH (15%)</span>
+                        <span class="tag">Epilepsia (15%)</span>
+                        <span class="tag">Disfagia (15%)</span>
+                        <span class="tag">Cardiopatías (8%)</span>
+                        <p>Los trastornos del neurodesarrollo son los hallazgos más prevalentes.</p>
+                    </div>
+                    <div>
+                        <h3>📈 Distribución por Edad</h3>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="edadChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="casos-destacados">
+            <div class="card">
+                <h2>⭐ Casos Destacados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Edad</th>
+                            <th>Hallazgos Clave</th>
+                            <th>Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Anahara</td>
+                            <td>10 años</td>
+                            <td>TEA, esquizofrenia, epilepsia, TDAH, TOC</td>
+                            <td>Multisistémico</td>
+                        </tr>
+                        <tr>
+                            <td>Carlos (Cristina)</td>
+                            <td>11 años</td>
+                            <td>TEA grado 3, no verbal, epilepsia</td>
+                            <td>TEA grave</td>
+                        </tr>
+                        <tr>
+                            <td>Carmen</td>
+                            <td>3½ años</td>
+                            <td>Displasia cleidocraneal, sin clavículas</td>
+                            <td>Malformación ósea</td>
+                        </tr>
+                        <tr>
+                            <td>Lander</td>
+                            <td>13 años</td>
+                            <td>Pectus excavatum, dolor, Ehlers-Danlos?</td>
+                            <td>Colagenopatía</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="genetica">
+            <div class="card">
+                <h2>🧬 Correlación Genotipo-Fenotipo</h2>
+                <div class="grid">
+                    <div>
+                        <h3>Genes Potencialmente Afectados</h3>
+                        <ul>
+                            <li><strong>SHANK3</strong>: Desarrollo sináptico → TEA</li>
+                            <li><strong>CNTNAP2</strong>: Lenguaje → Retraso</li>
+                            <li><strong>COL3A1/COL5A1</strong>: Colágeno → Hiperlaxitud</li>
+                            <li><strong>TBX1</strong>: Desarrollo cardíaco → Cardiopatías</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Modelo de Herencia</h3>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="herenciaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recomendaciones">
+            <div class="card">
+                <h2>📌 Recomendaciones Clínicas</h2>
+                <div class="grid">
+                    <div>
+                        <h3>Evaluaciones Prioritarias</h3>
+                        <ol>
+                            <li>EEG en pacientes con regresión</li>
+                            <li>Ecocardiograma para hipotónicos</li>
+                            <li>Evaluación GI por disfagia</li>
+                            <li>Secuenciación genómica</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Enfoque Multidisciplinario</h3>
+                        <span class="tag">Neurología</span>
+                        <span class="tag">Genética</span>
+                        <span class="tag">Cardiología</span>
+                        <span class="tag">Gastroenterología</span>
+                        <span class="tag">Psiquiatría</span>
+                        <span class="tag">Terapia Ocupacional</span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-</section>
+    <footer>
+        <div class="container">
+            <p>© 2023 Análisis de Microdeleción | Datos basados en 26 casos clínicos</p>
+        </div>
+    </footer>
 
+    <script>
+        // Animaciones al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            anime({
+                targets: '.slide-in',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 1000,
+                delay: anime.stagger(100),
+                easing: 'easeOutExpo'
+            });
+            
+            // Smooth scrolling para navegación
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+
+        // Gráfico de patrones principales
+        const patronesCtx = document.getElementById('patronesChart').getContext('2d');
+        new Chart(patronesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['TEA', 'Hipotonía', 'Epilepsia', 'Disfagia', 'Cardiopatías'],
+                datasets: [{
+                    label: 'Prevalencia (%)',
+                    data: [46, 27, 15, 15, 8],
+                    backgroundColor: [
+                        '#4a6fa5',
+                        '#166088',
+                        '#4fc3f7',
+                        '#7acfd6',
+                        '#9ee0ad'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `${ctx.raw}%` } }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        ticks: { callback: value => `${value}%` }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // Gráfico de distribución por edad
+        const edadCtx = document.getElementById('edadChart').getContext('2d');
+        new Chart(edadCtx, {
+            type: 'line',
+            data: {
+                labels: ['2-5 años', '6-10 años', '11-15 años', '16+ años'],
+                datasets: [{
+                    label: 'Pacientes por grupo de edad',
+                    data: [5, 11, 8, 2],
+                    fill: true,
+                    backgroundColor: 'rgba(74, 111, 165, 0.2)',
+                    borderColor: '#4a6fa5',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Gráfico de herencia
+        const herenciaCtx = document.getElementById('herenciaChart').getContext('2d');
+        new Chart(herenciaCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Portadores asintomáticos', 'Sintomáticos leves', 'Sintomáticos graves'],
+                datasets: [{
+                    data: [10, 8, 8],
+                    backgroundColor: [
+                        '#9ee0ad',
+                        '#4fc3f7',
+                        '#4a6fa5'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} casos` } }
+                },
+                cutout: '65%'
+            }
+        });
+    </script>
 </body>
 </html>
