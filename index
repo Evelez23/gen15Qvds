@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<section class="wrapper">
+
+    <div class="contact-card">
+
+        <div class="left">
+            <h1>Contact <span class="accent">US</span></h1>
+
+            <form class="contact-form">
+
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Your Name">
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="Your Email">
+                </div>
+
+                <div class="input-group full">
+                    <label>Message</label>
+                    <textarea placeholder="Write your message..."></textarea>
+                </div>
+
+                <button>Send Message</button>
+            </form>
+        </div>
+
+        <div class="right">
+            <h2>More Info</h2>
+
+            <p><span class="icon">📍</span> Honduras, Centroamérica</p>
+            <p><span class="icon">📞</span> +504 9999-9999</p>
+            <p><span class="icon">✉️</span> contacto@tuweb.com</p>
+            <hr>
+            <p>Feel free to reach out to us anytime. We’ll get back to you as soon as possible.</p>
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>
